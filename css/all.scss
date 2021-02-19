@@ -1,0 +1,335 @@
+* {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+$themeColor: #00c2c2;
+$backgroundColor: #008f8f;
+$iconColor:#abffff;
+$boardSize: 308px;
+$cellSize: 100px;
+$marginLeft: 4px;
+$activeElementWidth: 4px;
+$borderSize: 3px;
+$fitWidth: ($boardSize / 2) - $marginLeft - $activeElementWidth - $borderSize;
+$LgFitWidth: $boardSize - $marginLeft - $activeElementWidth - ($borderSize * 2);
+$lineBorder: 6;
+@mixin lg {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+body {
+    background-color: $backgroundColor;
+}
+.close {
+    height: 0 !important;
+    opacity: 0;
+}
+.board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.board {
+    width: $boardSize;
+    padding-top: 40px;
+
+    @include lg() {
+        width: $boardSize * 2;
+    }
+}
+.board-header {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    pointer-events: none;
+    .circle,
+    .times {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $fitWidth;
+        color: $iconColor;
+        text-decoration: none;
+        font-size: 40px;
+        padding: 5px 0;
+        position: relative;
+        transition: all 0.4s;
+        background-color: #00b2b2;
+
+        @include lg() {
+            width: $LgFitWidth;
+            font-size: 50px;
+            padding: 10px 0;
+        }
+        &::before {
+            bottom: -10px;
+            height: 10px;
+            width: 100%;
+            left: 5px;
+            transform: skewX(45deg);
+            background-color: darken($themeColor, 15%);
+        }
+        &::after {
+            right: -10px;
+            height: 100%;
+            width: 10px;
+            bottom: -5px;
+            transform: skewY(45deg);
+            background-color: darken($themeColor, 20%);
+        }
+    }
+    .active {
+        margin-top: 6px;
+        font-size: 30px;
+        @include lg() {
+            margin-top: 12px;
+            font-size: 40px;
+        }
+        &::before {
+            bottom: -5px;
+            height: 5px;
+            left: 3px;
+        }
+        &::after {
+            height: 100%;
+            right: -5px;
+            width: $activeElementWidth;
+            bottom: -3px;
+        }
+    }
+    .circle::after,
+    .circle::before,
+    .times::after,
+    .times::before {
+        content: "";
+        position: absolute;
+        transition: all 0.4s;
+    }
+    .times {
+        margin-left: $marginLeft;
+        @include lg() {
+            margin-left: $marginLeft * 2;
+        }
+    }
+}
+.board-body {
+    width: 100%;
+    height: 308px;
+    margin: 50px auto;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    box-sizing: border-box;
+    .cell {
+        width: $cellSize;
+        height: $cellSize;
+        text-align: center;
+        font-size: 50px;
+        background-color: $themeColor;
+        border: $backgroundColor solid;
+        border-width: $borderSize $borderSize 0 $borderSize;
+        box-sizing: border-box;
+        @include lg() {
+            width: $cellSize * 2;
+            height: $cellSize * 2;
+            border: $borderSize $backgroundColor solid;
+        }
+    }
+    svg {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+        line{
+            stroke: darken($themeColor, 15%);
+            stroke-width: $lineBorder;
+        }
+        @include lg() {
+            stroke-width: $lineBorder * 2;
+        }
+    }
+    .circle,
+    .times {
+        width: 100%;
+        color: $iconColor;
+        text-decoration: none;
+        font-size: 50px;
+        position: relative;
+        line-height: $cellSize;
+        @include lg() {
+            font-size: 100px;
+            line-height: $cellSize * 2;
+        }
+    }
+}
+
+.startSelect-container {
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.startSelect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f0f0f0;
+    padding: 40px;
+    text-align: center;
+    .startSelect-header {
+        font-size: 20px;
+        padding-bottom: 20px;
+        @include lg() {
+            font-size: 40px;
+        }
+    }
+    .startSelect-body {
+        display: flex;
+        justify-content: center;
+    }
+    .circle,
+    .times {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $fitWidth;
+        color: $iconColor;
+        text-decoration: none;
+        font-size: 40px;
+        padding: 5px 0;
+        margin: 0 10px;
+        position: relative;
+        transition: all 0.4s;
+        background-color: #00b2b2;
+        @include lg() {
+            width: $LgFitWidth;
+            font-size: 50px;
+            padding: 10px 0;
+        }
+        &::before {
+            bottom: -10px;
+            height: 10px;
+            width: 100%;
+            left: 5px;
+            transform: skewX(45deg);
+            background-color: darken($themeColor, 15%);
+        }
+        &::after {
+            right: -10px;
+            height: 100%;
+            width: 10px;
+            bottom: -5px;
+            transform: skewY(45deg);
+            background-color: darken($themeColor, 20%);
+        }
+        &:active,
+        &:hover {
+            margin-top: 6px;
+            font-size: 30px;
+            @include lg() {
+                margin-top: 12px;
+                font-size: 40px;
+            }
+            &::before {
+                bottom: -5px;
+                height: 5px;
+                left: 3px;
+            }
+            &::after {
+                height: 100%;
+                right: -4px;
+                width: $activeElementWidth;
+                bottom: -3px;
+            }
+        }
+    }
+    .circle::after,
+    .circle::before,
+    .times::after,
+    .times::before {
+        content: "";
+        position: absolute;
+        transition: all 0.4s;
+    }
+    .times {
+        margin-left: $marginLeft;
+        @include lg() {
+            margin-left: $marginLeft * 2;
+        }
+    }
+}
+
+.end-container {
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.end {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f0f0f0;
+    padding: 40px;
+    text-align: center;
+    .win {
+        display: none;
+    }
+    .lose {
+        display: none;
+    }
+    .tie{
+        display: none;
+    }
+    .end-header {
+        font-size: 25px;
+        padding-bottom: 20px;
+        @include lg() {
+            font-size: 40px;
+        }
+    }
+    .end-body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .again {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $iconColor;
+        text-decoration: none;
+        font-size: 35px;
+        padding: 10px 30px;
+        border-radius: 5px;
+        transition: all 0.4s;
+        background-color: #00b2b2;
+        @include lg() {
+            width: $LgFitWidth;
+            font-size: 50px;
+            padding: 10px 0;
+        }
+        &:hover,
+        &:active {
+            color: #00b2b2;
+            background-color: #000;
+        }
+    }
+}
